@@ -13,7 +13,7 @@ let activeTab = 'all';
 
 
 
-    // all, interview , Rejected button  Related function
+// all, interview , Rejected button  Related function
 function switchTab(tab) {
     activeTab = tab;
 
@@ -27,3 +27,9 @@ function switchTab(tab) {
     render();
 }
 render();
+
+function render() {
+    const container = document.getElementById('job-container');
+    const emptyState = document.getElementById('empty-state');
+    const badge = document.getElementById('job-count-badge');
+}
