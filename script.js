@@ -38,7 +38,9 @@ function render() {
         container.innerHTML = filtered.map(job => `
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col relative group hover:shadow-lg transition-all duration-300">
 
-                
+                <button onclick="deleteJob(${job.id})" class="absolute top-5 right-5 text-slate-300 border border-gray-400 rounded-full p-1.5 hover:text-red-500 transition-colors">
+                <i class="fa-solid fa-trash-can"></i>
+                </button>
 
                 <div class=" grow">
                     <p class="text-xl font-bold text-[#002C5C] uppercase tracking-widest">${job.companyName}</p>
@@ -79,12 +81,18 @@ function updateStatus(id, newStatus) {
     } else {
         job.status = newStatus;
     }
-    
+
     render();
 }
 
+function deleteJob(id) {
+    if (confirm('Will You Delete This Card???')) {
+        jobs = jobs.filter(job => job.id !== id);
 
-    // all, interview , Rejected button  Related function
+        render();
+    }
+}
+// all, interview , Rejected button  Related function
 function switchTab(tab) {
     activeTab = tab;
 
