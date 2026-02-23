@@ -1,4 +1,3 @@
-console.log("check if it will be added");
 let jobs = [
     { id: 1, companyName: "Tesla", position: "AI Engineer", location: "Austin", type: "Full-time", salary: "$150k", description: "Self-driving car computer vision.", status: "all" },
     { id: 2, companyName: "Meta", position: "Product Designer", location: "Menlo Park", type: "Full-time", salary: "$115k", description: "Design UI for the Metaverse.", status: "all" },
@@ -14,6 +13,7 @@ let activeTab = 'all';
 
 
 
+    // all, interview , Rejected button  Related function
 function switchTab(tab) {
     activeTab = tab;
 
