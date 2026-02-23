@@ -11,9 +11,80 @@ let jobs = [
 
 let activeTab = 'all';
 
+function render() {
+    const container = document.getElementById('job-container');
+    const emptyState = document.getElementById('empty-state');
+    const badge = document.getElementById('job-count-badge');
+
+    const filtered = activeTab === 'all' ? jobs : jobs.filter(j => j.status === activeTab);
+
+    document.getElementById('dash-total').innerText = jobs.length;
+    document.getElementById('dash-interview').innerText = jobs.filter(j => j.status === 'interview').length;
+    document.getElementById('dash-rejected').innerText = jobs.filter(j => j.status === 'rejected').length;
+
+    if (activeTab === 'all') {
+        badge.innerText = `${jobs.length} jobs`;
+    } else {
+        badge.innerText = `${filtered.length} of ${jobs.length} jobs`;
+    }
+
+    if (filtered.length === 0) {
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+    } else {
+        container.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+
+        container.innerHTML = filtered.map(job => `
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col relative group hover:shadow-lg transition-all duration-300">
+
+                
+
+                <div class=" grow">
+                    <p class="text-xl font-bold text-[#002C5C] uppercase tracking-widest">${job.companyName}</p>
+                    <h3 class="text-[14px] font-bold text-gray-500 mt-1">${job.position}</h3>
+                    <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                        <span> •  ${job.location}</span>  <span>  •  ${job.type}</span>
+                    </div>
+                    <p class="text-sm font-bold text-gray-700 mt-3">Salary: ${job.salary}</p>
+
+                    <div class="mt-4 mb-4">
+                    ${job.status !== 'all' ? `
+                    <span class=" px-2 py-1 rounded text-[12px] font-bold uppercase ${job.status === 'interview' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                        ${job.status}
+                    </span>
+                ` : ''}
+                     </div>
+
+                    <p class="text-xs text-gray-500 mt-2 line-clamp-2">${job.description}</p>
+                </div>
+
+                <div class="flex gap-2 mt-6 max-w-xs">
+                    <button onclick="updateStatus(${job.id}, 'interview')" class="flex-1 py-2 rounded-lg text-xs font-bold border transition-all ${job.status === 'interview' ? ' bg-[#10B981] border-[#10B981]  text-white' : 'border-[#10B981] border-2 text-[#10B981] hover:bg-green-200 focus:outline-2 '}">
+                        INTERVIEW
+                    </button>
+                    <button onclick="updateStatus(${job.id}, 'rejected')" class="flex-1 py-2 rounded-lg text-xs font-bold border transition-all ${job.status === 'rejected' ? 'bg-[#EF4444] border-[#EF4444] text-white' : 'border-[#EF4444] border-2 text-[#EF4444] hover:bg-red-200 focus:outline-2 '}">
+                        REJECTED
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+function updateStatus(id, newStatus) {
+    const job = jobs.find(j => j.id === id);
+    if (activeTab === 'all') {
+        job.status = (job.status === newStatus) ? 'all' : newStatus;
+    } else {
+        job.status = newStatus;
+    }
+    
+    render();
+}
 
 
-// all, interview , Rejected button  Related function
+    // all, interview , Rejected button  Related function
 function switchTab(tab) {
     activeTab = tab;
 
@@ -27,9 +98,3 @@ function switchTab(tab) {
     render();
 }
 render();
-
-function render() {
-    const container = document.getElementById('job-container');
-    const emptyState = document.getElementById('empty-state');
-    const badge = document.getElementById('job-count-badge');
-}
